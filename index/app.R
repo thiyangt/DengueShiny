@@ -4,6 +4,7 @@ library(ggplot2)
 library(DT)
 library(lubridate)
 library(denguedatahub)
+library(plotly)
 
 # -----------------------------
 # DATA
@@ -13,6 +14,7 @@ dengue_df <- srilanka_weekly_data
 
 dengue_df <- dengue_df %>%
   mutate(
+    year <- factor(year),
     start.date = mdy(start.date),
     end.date = mdy(end.date),
     week = as.numeric(week)
@@ -135,9 +137,10 @@ server <- function(input, output) {
       group_by(year) %>%
       summarise(pos = min(week_id), .groups = "drop")
     
-    ggplot(plot_data, aes(x = week_id, y = cases)) +
+    ggplot(plot_data, aes(x = week_id, y = cases, col=year)) +
       geom_line(linewidth = 1) +
       geom_point(size = 1) +
+      scale_color_viridis_c() +
       scale_x_continuous(
         breaks = year_breaks$pos,
         labels = year_breaks$year
@@ -205,6 +208,7 @@ server <- function(input, output) {
   output$summary_table <- renderTable({
     
     district_data() %>%
+      mutate(year = factor(year)) %>%
       group_by(year) %>%
       summarise(
         Total = sum(cases, na.rm = TRUE),
