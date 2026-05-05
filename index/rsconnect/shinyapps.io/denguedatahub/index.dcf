@@ -1,0 +1,12 @@
+name: index
+title: index
+username: denguedatahub
+account: denguedatahub
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17296057
+bundleId:
+url: https://denguedatahub.shinyapps.io/index/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
